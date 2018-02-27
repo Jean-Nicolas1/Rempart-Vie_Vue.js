@@ -15,5 +15,18 @@ export default {
       .post("/signup", userInfo)
       .then(res => res.data)
       .catch(errHandler);
+  },
+  login(username, password) {
+    return service
+      .post("/login", {
+        username,
+        password
+      })
+      .then(res => {
+        const { token } = res.data;
+        axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+        return res.data;
+      })
+      .catch(errHandler);
   }
 };
