@@ -2,20 +2,20 @@
     <div id="perf">
       <div id="years" class="slider">
         <p class="label">Durée de l'épargne</p>
-        <vue-slider v-model="years.value" v-bind="years.options" class="vue-slider"></vue-slider>
+        <vue-slider @callback="update" v-model="years.value" v-bind="years.options" class="vue-slider"></vue-slider>
         <p class="result">{{ years.value }}</p>
       </div>
       <div id="cap-init" class="slider">
         <p class="label">Capitalisation initiale</p>
-        <vue-slider v-model="capInit.value" v-bind="capInit.options" class="vue-slider"></vue-slider>
+        <vue-slider @callback="update" v-model="capInit.value" v-bind="capInit.options" class="vue-slider"></vue-slider>
         <p class="result">{{ capInit.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }} €</p>
       </div>
       <div id="cap-month" class="slider">
         <p class="label">Epargne mensuelle</p>
-        <vue-slider v-model="capMonth.value" v-bind="capMonth.options" class="vue-slider"></vue-slider>
+        <vue-slider @callback="update" v-model="capMonth.value" v-bind="capMonth.options" class="vue-slider"></vue-slider>
         <p class="result">{{ capMonth.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }} €</p>
       </div>
-      <div>
+      <div v-if="displayColumnChart">
         <column-chart :stacked="true" :data="chartData"></column-chart>
       </div>
   </div>
@@ -29,21 +29,55 @@ export default {
   components: {
     vueSlider
   },
+
+  created() {
+    const rate = 0.05;
+    const rateMonth = (1 + rate) ** (1 / 12) - 1;
+    console.log(rateMonth);
+    for (let i = 1; i <= parseInt(this.years.value); i++) {
+      this.chartData[0].data[`Année ${i}`] = this.capInit.value + this.capMonth.value * 12 * i;
+      this.chartData[1].data[`Année ${i}`] = this.chartData[0].data[`Année ${i}`] * rate;
+    }
+  },
+
+  methods: {
+    update() {
+      this.displayColumnChart = false;
+      // this.years.value = "2 ans";
+      console.log(this.years.value);
+      console.log("this.chartData", this.chartData);
+      const rate = 0.1;
+      this.chartData[0].data = {};
+      this.chartData[1].data = {};
+      for (let i = 1; i <= parseInt(this.years.value); i++) {
+        this.chartData[0].data[`Année ${i}`] = this.capInit.value + this.capMonth.value * 12 * i;
+        // this.chartData[1].data[`Année ${i}`] = this.capMonth.value * (((1 + rateMonth) ** 13 - 1) / rateMonth - 1);
+        this.chartData[1].data[`Année ${i}`] = this.chartData[0].data[`Année ${i}`] * rate;
+      }
+      console.log("this.chartData", this.chartData);
+      setTimeout(() => {
+        this.displayColumnChart = true;
+      });
+    }
+  },
+
   data() {
     return {
+      displayColumnChart: true,
+
       chartData: [
         {
           name: "Versements cumulés",
-          data: { "Année 1": 1000, "Année 2": 1000, "Année 3": 1000, "Année 4": 1000, "Année 5": 1000 }
+          data: {}
         },
         {
           name: "Intérêts cumulés",
-          data: { "Année 1": 100, "Année 2": 210, "Année 3": 331, "Année 4": 464, "Année 5": 610 }
+          data: {}
         }
       ],
 
       years: {
-        value: "5 ans",
+        value: "7 ans",
         options: {
           width: "70%",
           tooltip: "always",
@@ -71,7 +105,7 @@ export default {
       },
 
       capInit: {
-        value: 1000,
+        value: 5000,
         options: {
           width: "70%",
           interval: 100,
@@ -85,7 +119,7 @@ export default {
       },
 
       capMonth: {
-        value: 0,
+        value: 800,
         options: {
           width: "70%",
           interval: 10,

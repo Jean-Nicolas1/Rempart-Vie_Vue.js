@@ -10,7 +10,7 @@ Vue.use(BootstrapVue);
 Vue.use(VueChartkick, { Chartkick });
 Vue.config.productionTip = false;
 
-new Vue({
+const vm = new Vue({
   router,
   render: h => h(App)
 }).$mount("#app");
