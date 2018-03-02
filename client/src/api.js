@@ -28,5 +28,11 @@ export default {
         return res.data;
       })
       .catch(errHandler);
+  },
+  formUpdate(form) {
+    return service
+      .post("/form", form)
+      .then(res => res.data)
+      .catch(errHandler);
   }
 };

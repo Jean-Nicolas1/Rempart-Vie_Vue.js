@@ -4,6 +4,7 @@ import Home from "./views/Home.vue";
 import Signup from "./views/Signup.vue";
 import Login from "./views/Login.vue";
 import Perf from "./views/Performance.vue";
+import Form from "./views/Formulaire.vue";
 
 Vue.use(Router);
 
@@ -26,6 +27,10 @@ export default new Router({
     {
       path: "/performance",
       component: Perf
+    },
+    {
+      path: "/formulaire",
+      component: Form
     }
   ]
 });

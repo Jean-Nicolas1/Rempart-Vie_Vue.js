@@ -15,8 +15,8 @@
         <vue-slider @callback="update" v-model="capMonth.value" v-bind="capMonth.options" class="vue-slider"></vue-slider>
         <p class="result">{{ capMonth.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }} €</p>
       </div>
-      <div v-if="displayColumnChart">
-        <column-chart :stacked="true" :data="chartData"></column-chart>
+      <div>
+        <column-chart :key="keyColumnChart" :stacked="true" :data="chartData"></column-chart>
       </div>
   </div>
   
@@ -42,7 +42,6 @@ export default {
 
   methods: {
     update() {
-      this.displayColumnChart = false;
       // this.years.value = "2 ans";
       console.log(this.years.value);
       console.log("this.chartData", this.chartData);
@@ -55,15 +54,13 @@ export default {
         this.chartData[1].data[`Année ${i}`] = this.chartData[0].data[`Année ${i}`] * rate;
       }
       console.log("this.chartData", this.chartData);
-      setTimeout(() => {
-        this.displayColumnChart = true;
-      });
+      this.keyColumnChart++;
     }
   },
 
   data() {
     return {
-      displayColumnChart: true,
+      keyColumnChart: 0,
 
       chartData: [
         {
@@ -77,7 +74,7 @@ export default {
       ],
 
       years: {
-        value: "7 ans",
+        value: "4 ans",
         options: {
           width: "70%",
           tooltip: "always",
