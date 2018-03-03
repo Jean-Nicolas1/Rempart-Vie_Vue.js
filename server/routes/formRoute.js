@@ -5,18 +5,13 @@ const Form = require("../models/form");
 const config = require("../config");
 
 router.patch("/", passport.authenticate("jwt", config.jwtSession), (req, res, next) => {
-  Form.findOneAndUpdate(
-    { userId: req.user._id },
-    { investmentObjective: req.body.investmentObjective },
-    { new: true },
-    (err, form) => {
-      if (err) {
-        next(err);
-        return;
-      }
-      res.json(form);
+  Form.findOneAndUpdate({ userId: req.user._id }, req.body, { new: true }, (err, form) => {
+    if (err) {
+      next(err);
+      return;
     }
-  );
+    res.json(req.body);
+  });
 });
 
 module.exports = router;

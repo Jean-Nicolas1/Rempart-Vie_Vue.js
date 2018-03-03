@@ -38,7 +38,7 @@ export default {
         })
         .then(user => {
           this.$root.user = user;
-          this.$router.push("/formulaire");
+          this.$router.push("/adhesion/profil-investisseur");
         })
         .catch(err => {
           this.error = err;

@@ -4,7 +4,8 @@ import Home from "./views/Home.vue";
 import Signup from "./views/Signup.vue";
 import Login from "./views/Login.vue";
 import Perf from "./views/Performance.vue";
-import Form from "./views/Formulaire.vue";
+import Adhesion1 from "./views/Adhesion1";
+import Adhesion2 from "./views/Adhesion2";
 
 Vue.use(Router);
 
@@ -29,8 +30,12 @@ export default new Router({
       component: Perf
     },
     {
-      path: "/formulaire",
-      component: Form
+      path: "/adhesion/profil-investisseur",
+      component: Adhesion1
+    },
+    {
+      path: "/adhesion/informations-personnelles",
+      component: Adhesion2
     }
   ]
 });

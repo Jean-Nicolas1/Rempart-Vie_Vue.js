@@ -14,10 +14,10 @@ export default {
     formUpdate() {
       api
         .formUpdate({
-          investmentObjective: this.selected
+          investmentObjective: this.options.filter(option => option.value === this.selected)[0].text
         })
         .then(() => {
-          this.$router.push("/login");
+          this.$router.push("/adhesion/informations-personnelles");
         })
         .catch(err => {
           this.error = err;

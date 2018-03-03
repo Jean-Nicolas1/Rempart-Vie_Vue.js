@@ -42,7 +42,7 @@ const strategy = new Strategy(
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
   },
   (payload, done) => {
-    console.log("strategy");
+    // console.log("strategy");
     // payload is the object we encrypted at the route /api/token
     // We get the user id, make sure the user exist by looking it up
     User.findById(payload.id).then(user => {
@@ -58,11 +58,11 @@ const strategy = new Strategy(
 // tell pasport to use it
 passport.use(strategy);
 
-app.use((req, res, next) => {
-  console.log("DEBUG config.jwtSecret", config.jwtSecret);
-  console.log("DEBUG req.headers", req.headers);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log("DEBUG config.jwtSecret", config.jwtSecret);
+//   console.log("DEBUG req.headers", req.headers);
+//   next();
+// });
 
 app.use("/", require("./routes/index"));
 app.use("/api", require("./routes/auth"));
