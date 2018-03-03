@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
+const Form = require("../models/form");
 const jwt = require("jwt-simple");
 const passport = require("passport");
 const config = require("../config");
@@ -23,7 +24,28 @@ router.post("/signup", (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.json({ success: true });
+    const form = new Form({
+      userId: user._id
+    });
+    form.save(err => {
+      if (err) {
+        return next(err);
+      }
+    });
+    const payload = {
+      id: user._id
+    };
+    // generate a token and send it
+    // this token will contain the user.id encrypted
+    // only the server is able to decrypt it
+    // for the client, this is just a token, he knows that
+    // he has to send it
+    const token = jwt.encode(payload, config.jwtSecret);
+    res.json({
+      token,
+      name: user.username
+    });
+    // res.json({ success: true });
   });
 });
 
@@ -59,7 +81,10 @@ router.post("/login", (req, res, next) => {
         // for the client, this is just a token, he knows that
         // he has to send it
         const token = jwt.encode(payload, config.jwtSecret);
-        res.json({ token });
+        res.json({
+          token,
+          name: user.username
+        });
       }
     });
   } else {

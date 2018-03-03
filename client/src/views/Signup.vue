@@ -36,7 +36,8 @@ export default {
           email: this.email,
           password: this.password
         })
-        .then(() => {
+        .then(user => {
+          this.$root.user = user;
           this.$router.push("/formulaire");
         })
         .catch(err => {

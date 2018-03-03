@@ -17,7 +17,7 @@ export default {
           investmentObjective: this.selected
         })
         .then(() => {
-          this.$router.push("/home");
+          this.$router.push("/login");
         })
         .catch(err => {
           this.error = err;

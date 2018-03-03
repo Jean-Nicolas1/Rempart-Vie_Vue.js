@@ -33,7 +33,6 @@ export default {
   created() {
     const rate = 0.05;
     const rateMonth = (1 + rate) ** (1 / 12) - 1;
-    console.log(rateMonth);
     for (let i = 1; i <= parseInt(this.years.value); i++) {
       this.chartData[0].data[`Année ${i}`] = this.capInit.value + this.capMonth.value * 12 * i;
       this.chartData[1].data[`Année ${i}`] = this.chartData[0].data[`Année ${i}`] * rate;
@@ -42,9 +41,6 @@ export default {
 
   methods: {
     update() {
-      // this.years.value = "2 ans";
-      console.log(this.years.value);
-      console.log("this.chartData", this.chartData);
       const rate = 0.1;
       this.chartData[0].data = {};
       this.chartData[1].data = {};
@@ -53,7 +49,6 @@ export default {
         // this.chartData[1].data[`Année ${i}`] = this.capMonth.value * (((1 + rateMonth) ** 13 - 1) / rateMonth - 1);
         this.chartData[1].data[`Année ${i}`] = this.chartData[0].data[`Année ${i}`] * rate;
       }
-      console.log("this.chartData", this.chartData);
       this.keyColumnChart++;
     }
   },

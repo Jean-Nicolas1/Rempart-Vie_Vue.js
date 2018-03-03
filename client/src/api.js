@@ -13,7 +13,12 @@ export default {
   signup(userInfo) {
     return service
       .post("/signup", userInfo)
-      .then(res => res.data)
+      .then(res => {
+        const { data } = res;
+        localStorage.setItem("user", JSON.stringify(data));
+        axios.defaults.headers.common["Authorization"] = "Bearer " + data.token;
+        return data;
+      })
       .catch(errHandler);
   },
   login(username, password) {
@@ -23,15 +28,30 @@ export default {
         password
       })
       .then(res => {
-        const { token } = res.data;
-        axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-        return res.data;
+        const { data } = res;
+        localStorage.setItem("user", JSON.stringify(data));
+        axios.defaults.headers.common["Authorization"] = "Bearer " + data.token;
+        return data;
       })
       .catch(errHandler);
   },
+  logout() {
+    delete axios.defaults.headers.common["Authorization"];
+    localStorage.removeItem("user");
+  },
+  loadUser() {
+    const userData = localStorage.getItem("user");
+    if (!userData) return false;
+    const user = JSON.parse(userData);
+    if (user.token && user.name) {
+      axios.defaults.headers.common["Authorization"] = "Bearer " + user.token;
+      return user;
+    }
+    return false;
+  },
   formUpdate(form) {
     return service
-      .post("/form", form)
+      .patch("/form", form)
       .then(res => res.data)
       .catch(errHandler);
   }
