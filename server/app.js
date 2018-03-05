@@ -67,6 +67,7 @@ passport.use(strategy);
 app.use("/", require("./routes/index"));
 app.use("/api", require("./routes/auth"));
 app.use("/api/form", require("./routes/formRoute"));
+app.use("/api/capital", require("./routes/capitalRoute"));
 // app.use("/api/simu", require("./routes/simu"));
 
 // catch 404 and forward to error handler

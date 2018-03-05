@@ -54,5 +54,11 @@ export default {
       .patch("/form", form)
       .then(res => res.data)
       .catch(errHandler);
+  },
+  capitalUpdate(form) {
+    return service
+      .patch("/capital", form)
+      .then(res => res.data)
+      .catch(errHandler);
   }
 };

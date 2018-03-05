@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 const Form = require("../models/form");
+const Capital = require("../models/capital");
 const jwt = require("jwt-simple");
 const passport = require("passport");
 const config = require("../config");
@@ -28,6 +29,14 @@ router.post("/signup", (req, res, next) => {
       userId: user._id
     });
     form.save(err => {
+      if (err) {
+        return next(err);
+      }
+    });
+    const capital = new Capital({
+      userId: user._id
+    });
+    capital.save(err => {
       if (err) {
         return next(err);
       }

@@ -6,6 +6,7 @@ import Login from "./views/Login.vue";
 import Perf from "./views/Performance.vue";
 import Adhesion1 from "./views/Adhesion1";
 import Adhesion2 from "./views/Adhesion2";
+import Adhesion3 from "./views/Adhesion3";
 
 Vue.use(Router);
 
@@ -36,6 +37,10 @@ export default new Router({
     {
       path: "/adhesion/informations-personnelles",
       component: Adhesion2
+    },
+    {
+      path: "/adhesion/validation",
+      component: Adhesion3
     }
   ]
 });
