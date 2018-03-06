@@ -1,24 +1,24 @@
 <template>
-  <div class="home">
-    <b-form @submit.prevent="formUpdate">
-      
+  <div class="container">
+    <b-form @submit.prevent="updateForm">
+
       <div class="card">
         <div class="card-header">
           {{section1.header}}
           <b-button @click="section1ButtonModify" v-if="!section1.isVisible" class="modify-btn">Modifier</b-button>
         </div>
         <div v-if="section1.isVisible" class="card-body">
-          <Choice :question="section1.partA.question" :options="section1.partA.options" :selected.sync="section1.partA.selected" :disclaimer="section1.partA.disclaimer" ></Choice>
-          <Choice :question="section1.partB.question" :options="section1.partB.options" :selected.sync="section1.partB.selected" :disclaimer="section1.partB.disclaimer" ></Choice>
-          <Choice :question="section1.partC.question" :options="section1.partC.options" :selected.sync="section1.partC.selected" :disclaimer="section1.partC.disclaimer" ></Choice>
-          <Choice :question="section1.partD.question" :options="section1.partD.options" :selected.sync="section1.partD.selected" :disclaimer="section1.partD.disclaimer" ></Choice>
-            <div id="checkbox">
-              <b-form-checkbox v-model="section1.status" value="accepted" unchecked-value="not_accepted">
-                 Je certifie que je ne suis pas résident fiscal d’un autre pays que la France et les éléments communiqués dans le 
-                 présent formulaire sont exacts et conformes à la réalité.
-              </b-form-checkbox>
+          <Choice :question="section1.partA.question" :options="section1.partA.options" :selected.sync="section1.partA.selected" :disclaimer="section1.partA.disclaimer"></Choice>
+          <Choice :question="section1.partB.question" :options="section1.partB.options" :selected.sync="section1.partB.selected" :disclaimer="section1.partB.disclaimer"></Choice>
+          <Choice :question="section1.partC.question" :options="section1.partC.options" :selected.sync="section1.partC.selected" :disclaimer="section1.partC.disclaimer"></Choice>
+          <Choice :question="section1.partD.question" :options="section1.partD.options" :selected.sync="section1.partD.selected" :disclaimer="section1.partD.disclaimer"></Choice>
+          <div id="checkbox">
+            <b-form-checkbox v-model="section1.status" value="accepted" unchecked-value="not_accepted">
+              Je certifie que je ne suis pas résident fiscal d’un autre pays que la France et les éléments communiqués dans le présent
+              formulaire sont exacts et conformes à la réalité.
+            </b-form-checkbox>
 
-            </div>
+          </div>
           <b-button @click="section1ButtonContinue" :disabled="section1.status==='not_accepted'" class="continue-btn">Continuer</b-button>
         </div>
       </div>
@@ -29,7 +29,7 @@
           <b-button @click="section2ButtonModify" v-if="!section2.isVisible" class="modify-btn">Modifier</b-button>
         </div>
         <div v-if="section2.isVisible" class="card-body">
-          <Choice :question="section2.question" :options="section2.options" :selected.sync="section2.selected" :disclaimer="section2.disclaimer" ></Choice>
+          <Choice :question="section2.question" :options="section2.options" :selected.sync="section2.selected" :disclaimer="section2.disclaimer"></Choice>
           <b-button @click="section2ButtonContinue" class="continue-btn">Continuer</b-button>
         </div>
       </div>
@@ -40,30 +40,31 @@
           <b-button @click="section3ButtonModify" v-if="!section3.isVisible" class="modify-btn">Modifier</b-button>
         </div>
         <div v-if="section3.isVisible" class="card-body">
-          <Choice :question="section3.question" :options="section3.options" :selected.sync="section3.selected" :disclaimer="section3.disclaimer" ></Choice>
+          <Choice :question="section3.question" :options="section3.options" :selected.sync="section3.selected" :disclaimer="section3.disclaimer"></Choice>
           <!-- <b-button @click="section3ButtonContinue" class="continue-btn">Continuer</b-button> -->
         </div>
       </div>
       <div id="navig">
-      <b-button size="lg" class="previous-btn">
-        <router-link to="/adhesion/profil-investisseur">Précédent</router-link>
-        
+        <b-button size="lg" class="previous-btn">
+          <router-link to="/adhesion/profil-investisseur">Précédent</router-link>
+
         </b-button>
-      <b-button type="submit" size="lg" class="next-btn">Suivant</b-button>
+
+        <b-button type="submit" size="lg" class="next-btn">Suivant</b-button>
 
       </div>
 
     </b-form>
-  
-  
-  
-  <!-- <Card @submit="formUpdate" :header="header" :question="question" :disclaimer="disclaimer" :options="options" :selected.sync="selected"/> -->
+
+
+
+    <!-- <Card @submit="updateForm" :header="header" :question="question" :disclaimer="disclaimer" :options="options" :selected.sync="selected"/> -->
   </div>
 </template>
 
 <script>
-import Choice from "../components/Choice";
-import api from "../api";
+import Choice from "@/components/Choice";
+import api from "@/api";
 
 export default {
   components: { Choice },
@@ -96,9 +97,9 @@ export default {
       this.section3.isVisible = true;
       window.scrollTo(0, 0);
     },
-    formUpdate() {
+    updateForm() {
       api
-        .formUpdate({
+        .updateForm({
           fiscalResidenceA: this.section1.partA.options.filter(
             option => option.value === this.section1.partA.selected
           )[0].text,
@@ -216,6 +217,7 @@ export default {
   margin-bottom: 20px;
   margin-top: 20px;
 }
+
 .card-header {
   display: flex;
   align-items: center;
@@ -225,27 +227,33 @@ export default {
   background-color: #206fb6;
   color: white;
 }
+
 .continue-btn {
   background-color: #206fb6;
   color: white;
 }
+
 .modify-btn {
   background-color: white;
   color: #206fb6;
 }
+
 #checkbox {
   margin-bottom: 20px;
 }
+
 .next-btn {
   background-color: #206fb6;
   color: white;
   margin-bottom: 20px;
 }
+
 .previous-btn {
   background-color: white;
   color: #206fb6;
   margin-bottom: 20px;
 }
+
 #navig {
   display: flex;
   justify-content: space-between;

@@ -1,4 +1,5 @@
 <template>
+  <div class="container">
     <div id="perf">
       <div id="years" class="slider">
         <p class="label">Durée de l'épargne</p>
@@ -18,6 +19,8 @@
       <div>
         <column-chart :key="keyColumnChart" :stacked="true" :data="chartData"></column-chart>
       </div>
+    </div>
+
   </div>
   
 </template>

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <b-form @submit.prevent="capitalUpdate" >
+  <div class="container">
+    <b-form @submit.prevent="updateCapital" >
       <div class="card">
         <div class="card-header">
           {{section1.header}}
@@ -43,21 +43,22 @@
 
 
 <script>
-import Choice from "../components/Choice";
-import api from "../api";
+import Choice from "@/components/Choice";
+import api from "@/api";
 export default {
   components: { Choice },
   methods: {
-    capitalUpdate() {
+    updateCapital() {
       api
-        .capitalUpdate({
+        .updateCapital({
           durationType: this.section1.partA.options.filter(option => option.value === this.section1.partA.selected)[0]
             .text,
           investedCapital: this.amount,
-          validationStatus: this.section1.status
+          validationStatus: this.section1.status,
+          operations: [{ type: "Versement", amount: this.amount }]
         })
         .then(() => {
-          this.$router.push("/");
+          this.$router.push("/account");
         })
         .catch(err => {
           this.error = err;

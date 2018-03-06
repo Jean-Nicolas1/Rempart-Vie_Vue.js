@@ -1,22 +1,25 @@
 <template>
-  <div class="card">
-    <div class="card-header">
-      Je me connecte
-    </div>
-    <div class="card-body">
-      <form  @submit.prevent="login">
-        <div class="form-group">
-          <input v-model="username" type="text" class="form-control" placeholder="Username" required>
-        </div>
-        <div class="form-group">
-          <input v-model="password" type="password" class="form-control" placeholder="Mot de passe" required>
-        </div>
-        <div class="btn-div">
-          <b-button size='lg' type="submit" class="continue-btn">Se connecter</b-button>
-        </div>
-      </form>
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        Je me connecte
+      </div>
+      <div class="card-body">
+        <form  @submit.prevent="login">
+          <div class="form-group">
+            <input v-model="username" type="text" class="form-control" placeholder="Username" required>
+          </div>
+          <div class="form-group">
+            <input v-model="password" type="password" class="form-control" placeholder="Mot de passe" required>
+          </div>
+          <div class="btn-div">
+            <b-button size='lg' type="submit" class="continue-btn">Se connecter</b-button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
+  
 </template>
 
 <script>

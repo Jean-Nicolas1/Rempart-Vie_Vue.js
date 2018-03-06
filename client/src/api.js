@@ -49,13 +49,25 @@ export default {
     }
     return false;
   },
-  formUpdate(form) {
+  getForm() {
+    return service
+      .get("/form")
+      .then(res => res.data)
+      .catch(errHandler);
+  },
+  updateForm(form) {
     return service
       .patch("/form", form)
       .then(res => res.data)
       .catch(errHandler);
   },
-  capitalUpdate(form) {
+  getCapital() {
+    return service
+      .get("/capital")
+      .then(res => res.data)
+      .catch(errHandler);
+  },
+  updateCapital(form) {
     return service
       .patch("/capital", form)
       .then(res => res.data)

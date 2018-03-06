@@ -1,14 +1,14 @@
 <template>
-  <div class="home">
-    <b-form @submit.prevent="formUpdate">
-    
+  <div class="container">
+    <b-form @submit.prevent="updateForm">
+
       <div class="card">
         <div class="card-header">
           {{section1.header}}
           <b-button @click="section1ButtonModify" v-if="!section1.isVisible" class="modify-btn">Modifier</b-button>
         </div>
         <div v-if="section1.isVisible" class="card-body">
-          <Choice :question="section1.question" :options="section1.options" :selected.sync="section1.selected" :disclaimer="section1.disclaimer" ></Choice>
+          <Choice :question="section1.question" :options="section1.options" :selected.sync="section1.selected" :disclaimer="section1.disclaimer"></Choice>
           <b-button @click="section1ButtonContinue" class="continue-btn">Continuer</b-button>
         </div>
       </div>
@@ -19,7 +19,7 @@
           <b-button @click="section2ButtonModify" v-if="!section2.isVisible" class="modify-btn">Modifier</b-button>
         </div>
         <div v-if="section2.isVisible" class="card-body">
-          <Choice :question="section2.question" :options="section2.options" :selected.sync="section2.selected" :disclaimer="section2.disclaimer" ></Choice>
+          <Choice :question="section2.question" :options="section2.options" :selected.sync="section2.selected" :disclaimer="section2.disclaimer"></Choice>
           <b-button @click="section2ButtonContinue" class="continue-btn">Continuer</b-button>
         </div>
       </div>
@@ -30,7 +30,7 @@
           <b-button @click="section3ButtonModify" v-if="!section3.isVisible" class="modify-btn">Modifier</b-button>
         </div>
         <div v-if="section3.isVisible" class="card-body">
-          <Choice :question="section3.question" :options="section3.options" :selected.sync="section3.selected" :disclaimer="section3.disclaimer" ></Choice>
+          <Choice :question="section3.question" :options="section3.options" :selected.sync="section3.selected" :disclaimer="section3.disclaimer"></Choice>
           <!-- <b-button @click="section3ButtonContinue" class="continue-btn">Continuer</b-button> -->
         </div>
       </div>
@@ -38,14 +38,14 @@
         <b-button type="submit" size="lg" class="next-btn">Suivant</b-button>
       </div>
     </b-form>
-  
+
 
   </div>
 </template>
 
 <script>
-import Choice from "../components/Choice";
-import api from "../api";
+import Choice from "@/components/Choice";
+import api from "@/api";
 
 export default {
   components: { Choice },
@@ -78,9 +78,9 @@ export default {
       this.section3.isVisible = true;
       window.scrollTo(0, 0);
     },
-    formUpdate() {
+    updateForm() {
       api
-        .formUpdate({
+        .updateForm({
           investmentObjective: this.section1.options.filter(option => option.value === this.section1.selected)[0].text,
           investmentHorizon: this.section2.options.filter(option => option.value === this.section2.selected)[0].text,
           gestionMode: this.section3.options.filter(option => option.value === this.section3.selected)[0].text
@@ -160,6 +160,7 @@ export default {
   margin-bottom: 20px;
   margin-top: 20px;
 }
+
 .card-header {
   display: flex;
   align-items: center;
@@ -169,19 +170,23 @@ export default {
   background-color: #206fb6;
   color: white;
 }
+
 .continue-btn {
   background-color: #206fb6;
   color: white;
 }
+
 .modify-btn {
   background-color: white;
   color: #206fb6;
 }
+
 .next-btn {
   background-color: #206fb6;
   color: white;
   margin-bottom: 20px;
 }
+
 .btn-div {
   text-align: right;
 }

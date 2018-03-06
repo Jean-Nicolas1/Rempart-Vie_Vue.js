@@ -4,10 +4,11 @@ import Home from "./views/Home.vue";
 import Signup from "./views/Signup.vue";
 import Login from "./views/Login.vue";
 import Perf from "./views/Performance.vue";
-import Adhesion1 from "./views/Adhesion1";
-import Adhesion2 from "./views/Adhesion2";
-import Adhesion3 from "./views/Adhesion3";
-import UserProfile from "./views/UserProfile";
+import Adhesion1 from "@/views/forms/Adhesion1";
+import Adhesion2 from "@/views/forms/Adhesion2";
+import Adhesion3 from "@/views/forms/Adhesion3";
+import UserProfile from "@/views/customerArea/UserProfile";
+import Versement from "@/views/customerArea/Versement";
 
 Vue.use(Router);
 
@@ -46,6 +47,10 @@ export default new Router({
     {
       path: "/account",
       component: UserProfile
+    },
+    {
+      path: "/account/versement",
+      component: Versement
     }
   ]
 });

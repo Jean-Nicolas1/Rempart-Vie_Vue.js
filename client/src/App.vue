@@ -27,9 +27,9 @@
       
   </b-navbar>
     
-  <div class="container">
-    <router-view/>
-  </div>
+
+  <router-view/>
+
 
   </div>
 </template>

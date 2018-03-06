@@ -1,25 +1,26 @@
 <template>
+  <div class="container">
     <div class="card">
-    <div class="card-header">
-      Je crée mon espace
-    </div>
-    <div class="card-body">
-      <form  @submit.prevent="signup">
-      <div class="form-group">
-        <input v-model="username" type="text" class="form-control" placeholder="Username" required>
+      <div class="card-header">
+        Je crée mon espace
       </div>
-      <div class="form-group">
-        <input v-model="email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Adresse email" required>
-        <small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais votre adresse email.</small>
+      <div class="card-body">
+        <form  @submit.prevent="signup">
+        <div class="form-group">
+          <input v-model="username" type="text" class="form-control" placeholder="Username" required>
+        </div>
+        <div class="form-group">
+          <input v-model="email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Adresse email" required>
+          <small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais votre adresse email.</small>
+        </div>
+        <div class="form-group">
+          <input v-model="password" type="password" class="form-control" placeholder="Mot de passe" required>
+        </div>
+        <div class="btn-div">
+          <b-button size='lg' type="submit" class="continue-btn">Se connecter</b-button>
+        </div>
+      </form>
       </div>
-      <div class="form-group">
-        <input v-model="password" type="password" class="form-control" placeholder="Mot de passe" required>
-      </div>
-      <div class="btn-div">
-        <b-button size='lg' type="submit" class="continue-btn">Se connecter</b-button>
-      </div>
-    </form>
-
     </div>
   </div>
   
