@@ -1,17 +1,29 @@
 <template>
-  <form  @submit.prevent="signup">
-  <div class="form-group">
-    <input v-model="username" type="text" class="form-control" placeholder="Username" required>
+    <div class="card">
+    <div class="card-header">
+      Je crée mon espace
+    </div>
+    <div class="card-body">
+      <form  @submit.prevent="signup">
+      <div class="form-group">
+        <input v-model="username" type="text" class="form-control" placeholder="Username" required>
+      </div>
+      <div class="form-group">
+        <input v-model="email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Adresse email" required>
+        <small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais votre adresse email.</small>
+      </div>
+      <div class="form-group">
+        <input v-model="password" type="password" class="form-control" placeholder="Mot de passe" required>
+      </div>
+      <div class="btn-div">
+        <b-button size='lg' type="submit" class="continue-btn">Se connecter</b-button>
+      </div>
+    </form>
+
+    </div>
   </div>
-  <div class="form-group">
-    <input v-model="email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Adresse email" required>
-    <small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais votre adresse email.</small>
-  </div>
-  <div class="form-group">
-    <input v-model="password" type="password" class="form-control" placeholder="Mot de passe" required>
-  </div>
-  <button type="submit" class="btn btn-primary">Continuer</button>
-</form>
+  
+  
 </template>
 
 <script>
@@ -56,3 +68,26 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.card {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+  text-transform: uppercase;
+  background-color: #206fb6;
+  color: white;
+}
+.continue-btn {
+  background-color: #206fb6;
+  color: white;
+}
+.btn-div {
+  text-align: center;
+}
+</style>

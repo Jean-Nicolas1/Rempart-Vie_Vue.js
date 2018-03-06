@@ -3,7 +3,7 @@
     <b-form @submit.prevent="capitalUpdate" >
       <div class="card">
         <div class="card-header">
-          <p>{{section1.header}}</p>
+          {{section1.header}}
           <b-button @click="section1ButtonModify" v-if="!section1.isVisible" class="modify-btn">Modifier</b-button>
         </div>
         <div v-if="section1.isVisible" class="card-body">
@@ -83,7 +83,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .card {
   margin-bottom: 20px;
   margin-top: 20px;

@@ -4,7 +4,7 @@
       
       <div class="card">
         <div class="card-header">
-          <p>{{section1.header}}</p>
+          {{section1.header}}
           <b-button @click="section1ButtonModify" v-if="!section1.isVisible" class="modify-btn">Modifier</b-button>
         </div>
         <div v-if="section1.isVisible" class="card-body">
@@ -25,7 +25,7 @@
 
       <div class="card">
         <div class="card-header">
-          <p>{{section2.header}}</p>
+          {{section2.header}}
           <b-button @click="section2ButtonModify" v-if="!section2.isVisible" class="modify-btn">Modifier</b-button>
         </div>
         <div v-if="section2.isVisible" class="card-body">
@@ -36,7 +36,7 @@
 
       <div class="card">
         <div class="card-header">
-          <p>{{section3.header}}</p>
+          {{section3.header}}
           <b-button @click="section3ButtonModify" v-if="!section3.isVisible" class="modify-btn">Modifier</b-button>
         </div>
         <div v-if="section3.isVisible" class="card-body">
@@ -211,7 +211,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .card {
   margin-bottom: 20px;
   margin-top: 20px;

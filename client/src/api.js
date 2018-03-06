@@ -60,5 +60,11 @@ export default {
       .patch("/capital", form)
       .then(res => res.data)
       .catch(errHandler);
+  },
+  getUser() {
+    return service
+      .get("/account")
+      .then(res => res.data)
+      .catch(errHandler);
   }
 };
