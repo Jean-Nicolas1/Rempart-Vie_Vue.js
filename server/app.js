@@ -65,7 +65,6 @@ passport.use(strategy);
 //   next();
 // });
 
-app.use("/", require("./routes/index"));
 app.use("/api", require("./routes/auth"));
 app.use("/api/account", require("./routes/user"));
 app.use("/api/form", require("./routes/formRoute"));
