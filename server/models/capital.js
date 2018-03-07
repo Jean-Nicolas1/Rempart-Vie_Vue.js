@@ -3,7 +3,6 @@ const { Schema } = mongoose;
 
 const capitalSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: "User" },
-  validationStatus: String,
   investedCapital: Number,
   durationType: String,
   operations: Array

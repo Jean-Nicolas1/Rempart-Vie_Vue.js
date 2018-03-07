@@ -9,6 +9,8 @@ import Adhesion2 from "@/views/forms/Adhesion2";
 import Adhesion3 from "@/views/forms/Adhesion3";
 import UserProfile from "@/views/customerArea/UserProfile";
 import Versement from "@/views/customerArea/Versement";
+import Rachat from "@/views/customerArea/Rachat";
+import Operation from "@/views/customerArea/Operation";
 
 Vue.use(Router);
 
@@ -51,6 +53,14 @@ export default new Router({
     {
       path: "/account/versement",
       component: Versement
+    },
+    {
+      path: "/account/rachat",
+      component: Rachat
+    },
+    {
+      path: "/account/mes-operations",
+      component: Operation
     }
   ]
 });

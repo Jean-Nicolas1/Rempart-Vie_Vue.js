@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <b-form @submit.prevent="updateCapital" >
+    <b-form @submit.prevent="adhesion" >
       <div class="card">
         <div class="card-header">
           {{section1.header}}
@@ -48,14 +48,24 @@ import api from "@/api";
 export default {
   components: { Choice },
   methods: {
-    updateCapital() {
+    adhesion() {
+      const date = new Date();
+      const twoDigits = function(myNumber) {
+        return ("0" + myNumber).slice(-2);
+      };
+      const formattedDate = twoDigits(date.getDate()) + "/" + twoDigits(date.getMonth() + 1) + "/" + date.getFullYear();
       api
         .updateCapital({
           durationType: this.section1.partA.options.filter(option => option.value === this.section1.partA.selected)[0]
             .text,
           investedCapital: this.amount,
-          validationStatus: this.section1.status,
-          operations: [{ type: "Versement", amount: this.amount }]
+          operation: {
+            type: "Adhesion",
+            amount: this.amount,
+            date: formattedDate,
+            status: "En cours de validation",
+            validationStatus: this.section1.status
+          }
         })
         .then(() => {
           this.$router.push("/account");

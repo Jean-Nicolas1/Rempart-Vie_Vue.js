@@ -20,27 +20,16 @@
     </b-nav>
     <div id="page-content">
       <div>
-        <h3>Tableau de bord</h3>
-        <section id="recap">
-          <div v-if="user && capital && form" class="block">
-            <h5>Récapitulatif depuis adhésion</h5>
-            <b-table id="table" striped hover :items="[{ 
-            cumul_des_versements_bruts: cumulVersements(capital.operations) + ' €' , 
-            rachats_bruts: cumulRachats(capital.operations) + ' €' ,
-            solde_brut_des_investissements: soldeInvest(capital.operations) + ' €' ,
-            plus_ou_moins_values_depuis_adhésion:'10',
-            performance_depuis_adhésion: '10',
-            épargne_atteinte: '10',
-            date : '10'
-            }]" :fields="tableFields">
+        <h3>Mes opérations</h3>
+        <div v-if="user && capital && form" id="recap">
+          <section class="block">
+          <h5>Toutes mes opérations</h5>
+            <b-table id="table" striped hover :items="listOperations(capital.operations)" :fields="tableFields">
             </b-table>
-          </div>
-          <div v-if="user && capital && form" class="block">
-            <h5>Graphique</h5>
-            
-          </div>
-          <h5 v-else>Loading...</h5>
-        </section>
+          </section>
+
+        </div>
+      <h5 v-else>Loading...</h5>
       </div>
     </div>
 
@@ -55,15 +44,8 @@ export default {
       user: null,
       capital: null,
       form: null,
-      tableFields: [
-        "cumul_des_versements_bruts",
-        "rachats_bruts",
-        "solde_brut_des_investissements",
-        "plus_ou_moins_values_depuis_adhésion",
-        "performance_depuis_adhésion",
-        "épargne_atteinte",
-        "date"
-      ]
+      tableFields: ["date", "operations", "statut", "montant"],
+      tableItems: []
     };
   },
   methods: {
@@ -90,6 +72,18 @@ export default {
       )
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    },
+    listOperations(operations) {
+      const table = [];
+      operations.forEach(el =>
+        table.push({
+          date: el.date,
+          operations: el.type,
+          statut: el.status,
+          montant: el.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " €"
+        })
+      );
+      return table;
     }
   },
   created() {
@@ -140,11 +134,6 @@ export default {
 #recap {
   padding: 20px 0;
 }
-.block {
-  padding: 20px;
-  background-color: white;
-  margin-bottom: 20px;
-}
 
 h5 {
   color: #206fb6;
@@ -152,6 +141,11 @@ h5 {
 
 #table {
   text-align: center;
+}
+
+.block {
+  padding: 20px;
+  background-color: white;
 }
 
 .table>>>th {
@@ -165,8 +159,7 @@ h5 {
 
 .table>>>td {
   vertical-align: middle;
-  color: #206fb6;
-  font-weight: bold;
+  color: black;
   min-width: 50px;
 }
 </style>

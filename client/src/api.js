@@ -67,12 +67,13 @@ export default {
       .then(res => res.data)
       .catch(errHandler);
   },
-  updateCapital(form) {
+  updateCapital(capital) {
     return service
-      .patch("/capital", form)
+      .patch("/capital", capital)
       .then(res => res.data)
       .catch(errHandler);
   },
+
   getUser() {
     return service
       .get("/account")

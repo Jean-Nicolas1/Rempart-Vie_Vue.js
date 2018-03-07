@@ -15,13 +15,44 @@ router.get("/", passport.authenticate("jwt", config.jwtSession), (req, res, next
 });
 
 router.patch("/", passport.authenticate("jwt", config.jwtSession), (req, res, next) => {
-  Capital.findOneAndUpdate({ userId: req.user._id }, req.body, { new: true }, (err, capital) => {
-    if (err) {
-      next(err);
-      return;
-    }
-    res.json(req.body);
-  });
+  if (req.body.investedCapital && req.body.durationType) {
+    Capital.findOneAndUpdate(
+      { userId: req.user._id },
+      {
+        $set: {
+          investedCapital: req.body.investedCapital,
+          durationType: req.body.durationType
+        },
+        $push: { operations: req.body.operation }
+      },
+      { new: true },
+      (err, capital) => {
+        if (err) {
+          next(err);
+          return;
+        }
+        res.json(req.body);
+      }
+    );
+  } else {
+    Capital.findOneAndUpdate(
+      { userId: req.user._id },
+      {
+        $set: {
+          validationStatus: req.body.validationStatus
+        },
+        $push: { operations: req.body.operation }
+      },
+      { new: true },
+      (err, capital) => {
+        if (err) {
+          next(err);
+          return;
+        }
+        res.json(req.body);
+      }
+    );
+  }
 });
 
 module.exports = router;

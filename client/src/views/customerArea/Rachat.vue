@@ -19,31 +19,23 @@
       </div>
     </b-nav>
     <div id="page-content">
-      <div >
-        <h3>Versements</h3>
-        <div v-if="user && capital && form" id="recap" class="row">
+      <div>
+        <h3>Rachats partiels</h3>
+        <div id="recap" class="row">
           <div class="action col-sm-6">
-            <div class="block">
-              <h5>Versement libre</h5>
-              <p class='desc'>Vous pouvez à tout moment effectuer un versement libre sur ce contrat</p>
+            <div v-if="user && capital && form" class="block">
+              <h5>Rachat partiel</h5>
+              <p class='desc'>Effectuer un rachat partiel sur ce contrat</p>
               <div class="btn-div">
-                <b-button @click="edit" v-if="!isEditing" class="continue-btn">Effectuer un versement libre</b-button>
+                <b-button @click="edit" v-if="!isEditing" class="continue-btn">Effectuer un rachat partiel</b-button>
               </div>
             </div>
-          </div>
-          <div class="action col-sm-6">
-            <div class="block">
-              <h5>Versement libre programmé</h5>
-              <p class='desc'>Créer un versement libre programmé</p>
-              <div class="btn-div">
-                <b-button class="continue-btn">Créer mon versement libre programmé</b-button>
-              </div>
-            </div>
+            <h5 v-else>Loading...</h5>
           </div>
         </div>
-        <h5 v-else>Loading...</h5>
+
         <div v-if="isEditing" class="container">
-          <b-form @submit.prevent="addDeposit">
+          <b-form @submit.prevent="buyBack">
             <div class="card">
               <div class="card-header">
                 {{section1.header}}
@@ -57,7 +49,7 @@
                   </b-form-checkbox>
                 </div>
 
-                <label id="label" for="capital-input">Montant du versement libre *</label>
+                <label id="label" for="capital-input">Montant du rachat partiel *</label>
                 <div class="input-group">
                   <input id="capital-input" v-model="amount" type="text" class="form-control" aria-label="Amount (to the nearest euro)">
                   <div class="input-group-append">
@@ -80,7 +72,6 @@
           </b-form>
         </div>
       </div>
-
     </div>
 
   </div>
@@ -100,26 +91,20 @@ export default {
       amount: 0,
       section1: {
         isVisible: true,
-        header: "Versement libre",
+        header: "Rachat partiel",
         status: "accepted",
         partA: {
-          question: "Quel est votre principal objectif de placement ?",
+          question: "Quel est la raison de votre rachat ?",
           disclaimer: "",
           selected: "",
           options: [
-            { text: "Me constituer une épargne de précaution", value: "radio1" },
+            { text: "J'ai besoin de cet argent pour gérer un imprévu", value: "radio1" },
             {
-              text:
-                "Compléter mon revenu en vue d'un projet ou d'une dépense importante (achat immobilier, voyage, études des enfants...)",
+              text: "Je suis inquiet des performances du contrat",
               value: "radio2"
             },
-            { text: "Préparer ma retraite", value: "radio3" },
-            { text: "Transmettre mon patrimoine", value: "radio4" },
-            {
-              text:
-                "Dynamiser mon épargne en espérant atteindre une forte plus-value (Un rendement élevé est susceptible d'entraîner un risque important)",
-              value: "radio5"
-            }
+            { text: "Je suis satisfait de mon investissement mais souhaite utiliser cette somme", value: "radio3" },
+            { text: "Autre", value: "radio4" }
           ]
         }
       }
@@ -129,7 +114,7 @@ export default {
     edit() {
       this.isEditing = true;
     },
-    addDeposit() {
+    buyBack() {
       const date = new Date();
       const twoDigits = function(myNumber) {
         return ("0" + myNumber).slice(-2);
@@ -138,12 +123,12 @@ export default {
       api
         .updateCapital({
           operation: {
-            type: "Versement",
+            type: "Rachat partiel",
             amount: this.amount,
             date: formattedDate,
             status: "En cours de validation",
             validationStatus: this.section1.status,
-            investmentObjective: this.section1.partA.options.filter(
+            buyBackReason: this.section1.partA.options.filter(
               option => option.value === this.section1.partA.selected
             )[0].text
           }

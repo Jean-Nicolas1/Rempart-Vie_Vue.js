@@ -8,10 +8,10 @@
           <b-button @click="section1ButtonModify" v-if="!section1.isVisible" class="modify-btn">Modifier</b-button>
         </div>
         <div v-if="section1.isVisible" class="card-body">
-          <Choice :question="section1.partA.question" :options="section1.partA.options" :selected.sync="section1.partA.selected" :disclaimer="section1.partA.disclaimer"></Choice>
-          <Choice :question="section1.partB.question" :options="section1.partB.options" :selected.sync="section1.partB.selected" :disclaimer="section1.partB.disclaimer"></Choice>
-          <Choice :question="section1.partC.question" :options="section1.partC.options" :selected.sync="section1.partC.selected" :disclaimer="section1.partC.disclaimer"></Choice>
-          <Choice :question="section1.partD.question" :options="section1.partD.options" :selected.sync="section1.partD.selected" :disclaimer="section1.partD.disclaimer"></Choice>
+          <ChoiceH :question="section1.partA.question" :options="section1.partA.options" :selected.sync="section1.partA.selected" :disclaimer="section1.partA.disclaimer"></ChoiceH>
+          <ChoiceH :question="section1.partB.question" :options="section1.partB.options" :selected.sync="section1.partB.selected" :disclaimer="section1.partB.disclaimer"></ChoiceH>
+          <ChoiceH :question="section1.partC.question" :options="section1.partC.options" :selected.sync="section1.partC.selected" :disclaimer="section1.partC.disclaimer"></ChoiceH>
+          <ChoiceH :question="section1.partD.question" :options="section1.partD.options" :selected.sync="section1.partD.selected" :disclaimer="section1.partD.disclaimer"></ChoiceH>
           <div id="checkbox">
             <b-form-checkbox v-model="section1.status" value="accepted" unchecked-value="not_accepted">
               Je certifie que je ne suis pas résident fiscal d’un autre pays que la France et les éléments communiqués dans le présent
@@ -64,10 +64,11 @@
 
 <script>
 import Choice from "@/components/Choice";
+import ChoiceH from "@/components/ChoiceH";
 import api from "@/api";
 
 export default {
-  components: { Choice },
+  components: { Choice, ChoiceH },
   methods: {
     section1ButtonModify() {
       this.section1.isVisible = true;
