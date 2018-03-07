@@ -120,12 +120,28 @@ export default {
         return ("0" + myNumber).slice(-2);
       };
       const formattedDate = twoDigits(date.getDate()) + "/" + twoDigits(date.getMonth() + 1) + "/" + date.getFullYear();
+      const monthNames = [
+        "Janvier",
+        "Février",
+        "Mars",
+        "Avril",
+        "Mai",
+        "Juin",
+        "Juillet",
+        "Août",
+        "Septembre",
+        "Octobre",
+        "Novembre",
+        "Décembre"
+      ];
+      const monthYearDate = monthNames[date.getMonth()] + " " + date.getFullYear();
       api
         .updateCapital({
           operation: {
             type: "Rachat partiel",
             amount: this.amount,
             date: formattedDate,
+            monthYearDate: monthYearDate,
             status: "En cours de validation",
             validationStatus: this.section1.status,
             buyBackReason: this.section1.partA.options.filter(

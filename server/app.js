@@ -5,11 +5,11 @@ var logger = require("morgan");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-mongoose.connect(process.env.MONGODB_URI, { useMongoClient: true });
+require("dotenv").config();
+mongoose.connect(process.env.MONGODB_URI);
 
 const passport = require("passport");
 const User = require("./models/user");
-require("dotenv").config();
 const config = require("./config");
 const { Strategy, ExtractJwt } = require("passport-jwt");
 const cors = require("cors");

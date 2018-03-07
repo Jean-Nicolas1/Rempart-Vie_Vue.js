@@ -37,7 +37,7 @@
           </div>
           <div v-if="user && capital && form" class="block">
             <h5>Graphique</h5>
-            
+            <line-chart :data="chartData" />
           </div>
           <h5 v-else>Loading...</h5>
         </section>
@@ -63,6 +63,13 @@ export default {
         "performance_depuis_adhésion",
         "épargne_atteinte",
         "date"
+      ],
+      chartData: [
+        { name: "Epargne atteinte", data: {} },
+        {
+          name: "Cumul des versements/rachats",
+          data: {}
+        }
       ]
     };
   },
@@ -107,7 +114,108 @@ export default {
       });
     api
       .getCapital()
-      .then(capital => (this.capital = capital))
+      .then(capital => {
+        this.capital = capital;
+        const adhesionDate = this.capital.operations[0].date;
+        console.log(adhesionDate);
+        const monthNames = [
+          "Janvier",
+          "Février",
+          "Mars",
+          "Avril",
+          "Mai",
+          "Juin",
+          "Juillet",
+          "Août",
+          "Septembre",
+          "Octobre",
+          "Novembre",
+          "Décembre"
+        ];
+        const adhesionDateFormatted = new Date(
+          adhesionDate.substring(6),
+          adhesionDate.substring(3, 5) - 1,
+          adhesionDate.substring(0, 2)
+        );
+        function monthDiff(d1, d2) {
+          var months;
+          months = (d2.getFullYear() - d1.getFullYear()) * 12;
+          months -= d1.getMonth();
+          months += d2.getMonth();
+          return months <= 0 ? 0 : months;
+        }
+        const date = new Date();
+        const monthSinceAdhesion = monthDiff(adhesionDateFormatted, date);
+        let cumulDataSet = {};
+        let cumul =
+          this.capital.operations
+            .filter(
+              operation =>
+                operation.type !== "Rachat partiel" &&
+                operation.monthYearDate === this.capital.operations[0].monthYearDate
+            )
+            .reduce((a, b) => a + parseInt(b.amount), 0) -
+          this.capital.operations
+            .filter(
+              operation =>
+                operation.type === "Rachat partiel" &&
+                operation.monthYearDate === this.capital.operations[0].monthYearDate
+            )
+            .reduce((a, b) => a + parseInt(b.amount), 0);
+        cumulDataSet[this.capital.operations[0].monthYearDate] = cumul;
+        for (let i = 1; i <= monthSinceAdhesion; i++) {
+          cumulDataSet[
+            `${monthNames[(adhesionDateFormatted.getMonth() + i) % 12]}_${adhesionDateFormatted.getFullYear() +
+              Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
+          ] =
+            cumul +
+            this.capital.operations
+              .filter(
+                operation =>
+                  operation.type !== "Rachat partiel" &&
+                  operation.monthYearDate ===
+                    `${monthNames[(adhesionDateFormatted.getMonth() + i) % 12]} ${adhesionDateFormatted.getFullYear() +
+                      Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
+              )
+              .reduce((a, b) => a + parseInt(b.amount), 0) -
+            this.capital.operations
+              .filter(
+                operation =>
+                  operation.type === "Rachat partiel" &&
+                  operation.monthYearDate ===
+                    `${monthNames[(adhesionDateFormatted.getMonth() + i) % 12]} ${adhesionDateFormatted.getFullYear() +
+                      Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
+              )
+              .reduce((a, b) => a + parseInt(b.amount), 0);
+          //TEST
+          console.log(
+            "debug",
+            `${monthNames[(adhesionDateFormatted.getMonth() + i) % 12]} ${adhesionDateFormatted.getFullYear() +
+              Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
+          );
+          cumul +=
+            this.capital.operations
+              .filter(
+                operation =>
+                  operation.type !== "Rachat partiel" &&
+                  operation.monthYearDate ===
+                    `${monthNames[(adhesionDateFormatted.getMonth() + i) % 12]} ${adhesionDateFormatted.getFullYear() +
+                      Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
+              )
+              .reduce((a, b) => a + parseInt(b.amount), 0) -
+            this.capital.operations
+              .filter(
+                operation =>
+                  operation.type === "Rachat partiel" &&
+                  operation.monthYearDate ===
+                    `${monthNames[(adhesionDateFormatted.getMonth() + i) % 12]} ${adhesionDateFormatted.getFullYear() +
+                      Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
+              )
+              .reduce((a, b) => a + parseInt(b.amount), 0);
+          console.log(cumul);
+        }
+        this.chartData[1].data = cumulDataSet;
+      })
       .catch(err => {
         this.error = err;
       });
