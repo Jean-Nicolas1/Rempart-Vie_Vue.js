@@ -5,7 +5,7 @@ var logger = require("morgan");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/Rempart-Vie-DB");
+mongoose.connect(process.env.MONGODB_URI, { useMongoClient: true });
 
 const passport = require("passport");
 const User = require("./models/user");
@@ -13,6 +13,7 @@ require("dotenv").config();
 const config = require("./config");
 const { Strategy, ExtractJwt } = require("passport-jwt");
 const cors = require("cors");
+const history = require("express-history-api-fallback");
 
 var app = express();
 
@@ -70,6 +71,10 @@ app.use("/api/account", require("./routes/user"));
 app.use("/api/form", require("./routes/formRoute"));
 app.use("/api/capital", require("./routes/capitalRoute"));
 // app.use("/api/simu", require("./routes/simu"));
+
+const clientRoot = path.join(__dirname, "../client/dist");
+app.use("/", express.static(clientRoot));
+app.use(history("index.html", { root: clientRoot }));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

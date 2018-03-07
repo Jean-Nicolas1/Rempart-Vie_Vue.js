@@ -1,0 +1,21 @@
+{
+  "name": "Rempart-Vie_Vue.js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "cd server && npm install",
+    "start": "cd server && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jean-Nicolas1/Rempart-Vie_Vue.js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jean-Nicolas1/Rempart-Vie_Vue.js/issues"
+  },
+  "homepage": "https://github.com/Jean-Nicolas1/Rempart-Vie_Vue.js#readme"
+}
