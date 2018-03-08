@@ -125,7 +125,7 @@ export default {
         disclaimer: "",
         selected: "",
         options: [
-          { text: "Moins de 3ans", value: "radio1" },
+          { text: "Moins de 3 ans", value: "radio1" },
           {
             text: "Entre 3 et 5 ans",
             value: "radio2"

@@ -13,7 +13,7 @@ Vue.config.productionTip = false;
 const vm = new Vue({
   router,
   data: {
-    user: null
+    user: {}
   },
   render: h => h(App)
 }).$mount("#app");

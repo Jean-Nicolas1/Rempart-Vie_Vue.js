@@ -1,35 +1,18 @@
 <template>
   <div id="page">
-    <b-nav id="navig" vertical class="w-25">
-      <div v-if="user">
-        Bienvenue,
-        <br> {{user.username}}
-      </div>
-      <div id="nav-links">
-        <router-link to="/account">Tableau de bord</router-link>
-      </div>
-      <div id="nav-links">
-        <router-link to="/account/versement">Versements</router-link>
-      </div>
-      <div id="nav-links">
-        <router-link to="/account/rachat">Rachats partiels</router-link>
-      </div>
-      <div id="nav-links">
-        <router-link to="/account/mes-operations">Mes opérations</router-link>
-      </div>
-    </b-nav>
+    <LeftNav />
     <div id="page-content">
       <div>
         <h3>Mes opérations</h3>
         <div v-if="user && capital && form" id="recap">
           <section class="block">
-          <h5>Toutes mes opérations</h5>
+            <h5>Toutes mes opérations</h5>
             <b-table id="table" striped hover :items="listOperations(capital.operations)" :fields="tableFields">
             </b-table>
           </section>
 
         </div>
-      <h5 v-else>Loading...</h5>
+        <h5 v-else>Loading...</h5>
       </div>
     </div>
 
@@ -39,7 +22,9 @@
 <script>
 //
 import api from "@/api";
+import LeftNav from "@/components/LeftNav";
 export default {
+  components: { LeftNav },
   data() {
     return {
       user: null,
@@ -111,16 +96,6 @@ export default {
 </script>
 
 <style scoped>
-#navig {
-  background-color: #074b78;
-  padding: 10px;
-  color: white;
-}
-
-#nav-links {
-  color: white;
-}
-
 #page {
   display: flex;
   min-height: calc(100vh - 70px);
@@ -162,5 +137,8 @@ h5 {
   vertical-align: middle;
   color: black;
   min-width: 50px;
+}
+.table>>>td:nth-child(4) {
+  font-weight: bold;
 }
 </style>

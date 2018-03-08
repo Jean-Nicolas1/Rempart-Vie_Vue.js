@@ -1,6 +1,6 @@
 <template>
   <div>
-  <p>{{question}}</p>
+  <p class="question">{{question}}</p>
   
   <b-form-radio-group id="btnradios2" buttons button-variant="outline-primary" 
       size="lg" :checked="selected" @input="$emit('update:selected', $event)" :options="options" name="radioBtnOutline" />
@@ -29,5 +29,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.question {
+  font-weight: bold;
 }
 </style>

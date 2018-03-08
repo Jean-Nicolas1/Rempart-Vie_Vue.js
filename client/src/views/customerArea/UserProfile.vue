@@ -1,23 +1,6 @@
 <template>
   <div id="page">
-    <b-nav id="navig" vertical class="w-25">
-      <div v-if="user">
-        Bienvenue,
-        <br> {{user.username}}
-      </div>
-      <div id="nav-links">
-        <router-link to="/account">Tableau de bord</router-link>
-      </div>
-      <div id="nav-links">
-        <router-link to="/account/versement">Versements</router-link>
-      </div>
-      <div id="nav-links">
-        <router-link to="/account/rachat">Rachats partiels</router-link>
-      </div>
-      <div id="nav-links">
-        <router-link to="/account/mes-operations">Mes opérations</router-link>
-      </div>
-    </b-nav>
+    <LeftNav />
     <div id="page-content">
       <div>
         <h3>Tableau de bord</h3>
@@ -48,7 +31,9 @@
 
 <script>
 import api from "@/api";
+import LeftNav from "@/components/LeftNav";
 export default {
+  components: { LeftNav },
   data() {
     return {
       user: null,
@@ -316,18 +301,6 @@ export default {
         this.chartData[0].data = epargneDataSet;
         this.epargne = epargne;
       })
-      // api
-      //   .getPerf()
-      //   .then(perf => (this.perf = perf))
-      //   .catch(err => {
-      //     this.error = err;
-      //   });
-      // api
-      //   .getCapital()
-      //   .then(capital => {
-      //     this.capital = capital;
-
-      //   })
       .catch(err => {
         this.error = err;
       });
@@ -341,7 +314,28 @@ export default {
   padding: 10px;
   color: white;
 }
-
+#welcome {
+  font-size: 20px;
+  padding: 10px;
+}
+.nav-btn {
+  background-color: white;
+  color: #074b78;
+  width: 100%;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.nav-btn-active {
+  background-color: #074b78;
+  color: white;
+  border-color: white;
+  border-width: 3px;
+  width: 100%;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
 #nav-links {
   color: white;
 }
@@ -380,13 +374,20 @@ h5 {
   color: white;
   font-weight: normal;
   padding: 5px;
-  min-width: 50px;
+  max-width: 50px;
 }
 
 .table>>>td {
   vertical-align: middle;
   color: #206fb6;
   font-weight: bold;
-  min-width: 50px;
+  max-width: 50px;
+}
+
+.table>>>td:nth-child(3) {
+  color: #27bd83;
+}
+.table>>>td:nth-child(4) {
+  color: #27bd83;
 }
 </style>
