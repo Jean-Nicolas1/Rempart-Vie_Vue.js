@@ -69,6 +69,7 @@ app.use("/api", require("./routes/auth"));
 app.use("/api/account", require("./routes/user"));
 app.use("/api/form", require("./routes/formRoute"));
 app.use("/api/capital", require("./routes/capitalRoute"));
+app.use("/api/performance", require("./routes/perfRoute"));
 // app.use("/api/simu", require("./routes/simu"));
 
 const clientRoot = path.join(__dirname, "../client/dist");

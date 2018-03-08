@@ -27,16 +27,15 @@
             <b-table id="table" striped hover :items="[{ 
             cumul_des_versements_bruts: cumulVersements(capital.operations) + ' €' , 
             rachats_bruts: cumulRachats(capital.operations) + ' €' ,
-            solde_brut_des_investissements: soldeInvest(capital.operations) + ' €' ,
-            plus_ou_moins_values_depuis_adhésion:'10',
-            performance_depuis_adhésion: '10',
-            épargne_atteinte: '10',
-            date : '10'
+            solde_brut_des_investissements: cumul + ' €' ,
+            plus_ou_moins_values_depuis_adhésion: (epargne-cumul).toFixed(2) +' €',
+            épargne_atteinte: epargne.toFixed(2) + ' €' ,
+            date : date
             }]" :fields="tableFields">
             </b-table>
           </div>
           <div v-if="user && capital && form" class="block">
-            <h5>Graphique</h5>
+            <h5>Epargne atteinte vs montant cumulé des versements rachats</h5>
             <line-chart :data="chartData" />
           </div>
           <h5 v-else>Loading...</h5>
@@ -55,12 +54,15 @@ export default {
       user: null,
       capital: null,
       form: null,
+      perf: null,
+      date: null,
+      cumul: null,
+      epargne: null,
       tableFields: [
         "cumul_des_versements_bruts",
         "rachats_bruts",
         "solde_brut_des_investissements",
         "plus_ou_moins_values_depuis_adhésion",
-        "performance_depuis_adhésion",
         "épargne_atteinte",
         "date"
       ],
@@ -100,6 +102,13 @@ export default {
     }
   },
   created() {
+    const date = new Date();
+    const twoDigits = function(myNumber) {
+      return ("0" + myNumber).slice(-2);
+    };
+    const formattedDate = twoDigits(date.getDate()) + "/" + twoDigits(date.getMonth() + 1) + "/" + date.getFullYear();
+    this.date = formattedDate;
+
     api
       .getUser()
       .then(user => (this.user = user))
@@ -112,12 +121,15 @@ export default {
       .catch(err => {
         this.error = err;
       });
-    api
-      .getCapital()
-      .then(capital => {
+
+    Promise.all([api.getPerf(), api.getCapital()])
+      .then(values => {
+        let perf = values[0];
+        let capital = values[1];
+        this.perf = perf;
         this.capital = capital;
         const adhesionDate = this.capital.operations[0].date;
-        console.log(adhesionDate);
+
         const monthNames = [
           "Janvier",
           "Février",
@@ -146,6 +158,8 @@ export default {
         }
         const date = new Date();
         const monthSinceAdhesion = monthDiff(adhesionDateFormatted, date);
+
+        // Cumul dataset creation
         let cumulDataSet = {};
         let cumul =
           this.capital.operations
@@ -187,12 +201,7 @@ export default {
                       Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
               )
               .reduce((a, b) => a + parseInt(b.amount), 0);
-          //TEST
-          console.log(
-            "debug",
-            `${monthNames[(adhesionDateFormatted.getMonth() + i) % 12]} ${adhesionDateFormatted.getFullYear() +
-              Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
-          );
+
           cumul +=
             this.capital.operations
               .filter(
@@ -212,10 +221,113 @@ export default {
                       Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
               )
               .reduce((a, b) => a + parseInt(b.amount), 0);
-          console.log(cumul);
         }
         this.chartData[1].data = cumulDataSet;
+        this.cumul = cumul;
+
+        // Epargne dataset creation
+        let epargneDataSet = {};
+        let epargne =
+          // (1 + this.perf.filter(perf => perf.month === this.capital.operations[0].monthYearDate)[0].perf) *
+          this.capital.operations
+            .filter(
+              operation =>
+                operation.type !== "Rachat partiel" &&
+                operation.monthYearDate === this.capital.operations[0].monthYearDate
+            )
+            .reduce((a, b) => a + parseInt(b.amount), 0) -
+          this.capital.operations
+            .filter(
+              operation =>
+                operation.type === "Rachat partiel" &&
+                operation.monthYearDate === this.capital.operations[0].monthYearDate
+            )
+            .reduce((a, b) => a + parseInt(b.amount), 0);
+
+        epargneDataSet[this.capital.operations[0].monthYearDate] = epargne;
+
+        for (let i = 1; i <= monthSinceAdhesion; i++) {
+          epargneDataSet[
+            `${monthNames[(adhesionDateFormatted.getMonth() + i) % 12]}_${adhesionDateFormatted.getFullYear() +
+              Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
+          ] =
+            (1 +
+              this.perf.filter(
+                perf =>
+                  perf.month ===
+                  `${monthNames[(adhesionDateFormatted.getMonth() + i) % 12]} ${adhesionDateFormatted.getFullYear() +
+                    Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
+              )[0].perf) *
+            (epargne +
+              this.capital.operations
+                .filter(
+                  operation =>
+                    operation.type !== "Rachat partiel" &&
+                    operation.monthYearDate ===
+                      `${
+                        monthNames[(adhesionDateFormatted.getMonth() + i) % 12]
+                      } ${adhesionDateFormatted.getFullYear() +
+                        Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
+                )
+                .reduce((a, b) => a + parseInt(b.amount), 0) -
+              this.capital.operations
+                .filter(
+                  operation =>
+                    operation.type === "Rachat partiel" &&
+                    operation.monthYearDate ===
+                      `${
+                        monthNames[(adhesionDateFormatted.getMonth() + i) % 12]
+                      } ${adhesionDateFormatted.getFullYear() +
+                        Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
+                )
+                .reduce((a, b) => a + parseInt(b.amount), 0));
+          epargne =
+            (1 +
+              this.perf.filter(
+                perf =>
+                  perf.month ===
+                  `${monthNames[(adhesionDateFormatted.getMonth() + i) % 12]} ${adhesionDateFormatted.getFullYear() +
+                    Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
+              )[0].perf) *
+            (epargne +
+              this.capital.operations
+                .filter(
+                  operation =>
+                    operation.type !== "Rachat partiel" &&
+                    operation.monthYearDate ===
+                      `${
+                        monthNames[(adhesionDateFormatted.getMonth() + i) % 12]
+                      } ${adhesionDateFormatted.getFullYear() +
+                        Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
+                )
+                .reduce((a, b) => a + parseInt(b.amount), 0) -
+              this.capital.operations
+                .filter(
+                  operation =>
+                    operation.type === "Rachat partiel" &&
+                    operation.monthYearDate ===
+                      `${
+                        monthNames[(adhesionDateFormatted.getMonth() + i) % 12]
+                      } ${adhesionDateFormatted.getFullYear() +
+                        Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
+                )
+                .reduce((a, b) => a + parseInt(b.amount), 0));
+        }
+        this.chartData[0].data = epargneDataSet;
+        this.epargne = epargne;
       })
+      // api
+      //   .getPerf()
+      //   .then(perf => (this.perf = perf))
+      //   .catch(err => {
+      //     this.error = err;
+      //   });
+      // api
+      //   .getCapital()
+      //   .then(capital => {
+      //     this.capital = capital;
+
+      //   })
       .catch(err => {
         this.error = err;
       });
@@ -267,7 +379,7 @@ h5 {
   background-color: #206fb6;
   color: white;
   font-weight: normal;
-  padding: 2px;
+  padding: 5px;
   min-width: 50px;
 }
 

@@ -79,5 +79,11 @@ export default {
       .get("/account")
       .then(res => res.data)
       .catch(errHandler);
+  },
+  getPerf() {
+    return service
+      .get("/performance")
+      .then(res => res.data)
+      .catch(errHandler);
   }
 };
