@@ -11,6 +11,7 @@ import UserProfile from "@/views/customerArea/UserProfile";
 import Versement from "@/views/customerArea/Versement";
 import Rachat from "@/views/customerArea/Rachat";
 import Operation from "@/views/customerArea/Operation";
+import UserInfo from "@/views/customerArea/UserInfo";
 
 Vue.use(Router);
 
@@ -61,6 +62,10 @@ export default new Router({
     {
       path: "/account/mes-operations",
       component: Operation
+    },
+    {
+      path: "/account/mon-profil",
+      component: UserInfo
     }
   ]
 });

@@ -12,7 +12,12 @@ const formSchema = new Schema({
   fiscalResidenceD: String,
   fiscalResidenceStatus: String,
   familySituation: String,
-  salary: String
+  salary: String,
+  birthdate: Date,
+  address: String,
+  zipcode: Number,
+  country: String,
+  tel: String
 });
 
 module.exports = mongoose.model("Form", formSchema);

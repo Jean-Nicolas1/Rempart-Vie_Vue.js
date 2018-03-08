@@ -11,6 +11,11 @@
       </router-link>
     </div>
     <div id="nav-links">
+      <router-link to="/account/mon-profil">
+        <b-button :class="{'nav-btn-active': $route.fullPath=== '/account/mon-profil', 'nav-btn': $route.fullPath!== '/account/mon-profil' }">Mon profil</b-button>
+      </router-link>
+    </div>
+    <div id="nav-links">
       <router-link to="/account/versement">
         <b-button :class="{'nav-btn-active': $route.fullPath=== '/account/versement', 'nav-btn': $route.fullPath!== '/account/versement' }">Versements</b-button>
       </router-link>
