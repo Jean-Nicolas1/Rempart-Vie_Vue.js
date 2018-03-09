@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
-mongoose.connect("mongodb://heroku_lhc73s6b:7cfn9410v75er2nunap9hpe9rc@ds261088.mlab.com:61088/heroku_lhc73s6b");
+mongoose.connect(process.env.MONGODB_URI);
 
 const Performance = require("../models/performance");
 
