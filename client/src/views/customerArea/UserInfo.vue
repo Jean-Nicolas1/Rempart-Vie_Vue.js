@@ -260,7 +260,7 @@ export default {
           { text: "Pacsé(e)", value: "radio3" },
           { text: "Union libre", value: "radio4" },
           {
-            text: "Divorsé(e)",
+            text: "Divorcé(e)",
             value: "radio5"
           },
           {
