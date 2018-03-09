@@ -7,34 +7,40 @@
     </div>
     <div id="nav-links">
       <router-link to="/account">
-        <b-button :class="{'nav-btn-active': $route.fullPath=== '/account', 'nav-btn': $route.fullPath!== '/account' }">Tableau de bord</b-button>
+        <b-button @click="scrollUp" :class="{'nav-btn-active': $route.fullPath=== '/account', 'nav-btn': $route.fullPath!== '/account' }">Tableau de bord</b-button>
       </router-link>
     </div>
     <div id="nav-links">
       <router-link to="/account/mon-profil">
-        <b-button :class="{'nav-btn-active': $route.fullPath=== '/account/mon-profil', 'nav-btn': $route.fullPath!== '/account/mon-profil' }">Mon profil</b-button>
+        <b-button @click="scrollUp" :class="{'nav-btn-active': $route.fullPath=== '/account/mon-profil', 'nav-btn': $route.fullPath!== '/account/mon-profil' }">Mon profil</b-button>
       </router-link>
     </div>
     <div id="nav-links">
       <router-link to="/account/versement">
-        <b-button :class="{'nav-btn-active': $route.fullPath=== '/account/versement', 'nav-btn': $route.fullPath!== '/account/versement' }">Versements</b-button>
+        <b-button @click="scrollUp" :class="{'nav-btn-active': $route.fullPath=== '/account/versement', 'nav-btn': $route.fullPath!== '/account/versement' }">Versements</b-button>
       </router-link>
     </div>
     <div id="nav-links">
       <router-link to="/account/rachat">
-        <b-button :class="{'nav-btn-active': $route.fullPath=== '/account/rachat', 'nav-btn': $route.fullPath!== '/account/rachat' }">Rachats partiels</b-button>
+        <b-button @click="scrollUp" :class="{'nav-btn-active': $route.fullPath=== '/account/rachat', 'nav-btn': $route.fullPath!== '/account/rachat' }">Rachats partiels</b-button>
       </router-link>
     </div>
     <div id="nav-links">
       <router-link to="/account/mes-operations">
-        <b-button :class="{'nav-btn-active': $route.fullPath=== '/account/mes-operations', 'nav-btn': $route.fullPath!== '/account/mes-operations' }">Mes opérations</b-button>
+        <b-button @click="scrollUp" :class="{'nav-btn-active': $route.fullPath=== '/account/mes-operations', 'nav-btn': $route.fullPath!== '/account/mes-operations' }">Mes opérations</b-button>
       </router-link>
     </div>
   </b-nav>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    scrollUp() {
+      window.scrollTo(0, 0);
+    }
+  }
+};
 </script>
 
 

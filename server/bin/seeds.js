@@ -40,8 +40,8 @@ Performance.create(performances, (err, docs) => {
     throw err;
   }
 
-  docs.forEach(perf => {
-    console.log(perf.month);
+  docs.forEach(performance => {
+    console.log(performance.month);
   });
   mongoose.connection.close();
 });

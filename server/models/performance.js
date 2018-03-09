@@ -6,4 +6,4 @@ const performanceSchema = new Schema({
   perf: Number
 });
 
-module.exports = mongoose.model("Perf", performanceSchema);
+module.exports = mongoose.model("Performance", performanceSchema);

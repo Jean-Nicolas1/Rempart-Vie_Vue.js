@@ -17,7 +17,7 @@
           <input v-model="password" type="password" class="form-control" placeholder="Mot de passe" required>
         </div>
         <div class="btn-div">
-          <b-button size='lg' type="submit" class="continue-btn">Se connecter</b-button>
+          <b-button size='lg' type="submit" class="continue-btn">Continuer</b-button>
         </div>
       </form>
       </div>

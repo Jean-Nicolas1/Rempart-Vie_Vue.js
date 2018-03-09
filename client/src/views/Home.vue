@@ -5,7 +5,7 @@
         <h2>Confiez vos économies à une équipe de spécialistes en toute simplicité</h2>
         <h3>
           <strong>Rempart Vue</strong>, c'est un produit... Simple non?</h3>
-        <router-link v-if="user" to="/signup">
+        <router-link v-if="!$root.user" to="/signup">
           <b-button size="lg" class="blue-btn">Adhérer au contrat</b-button>
         </router-link>
         <router-link v-else to="/account">
