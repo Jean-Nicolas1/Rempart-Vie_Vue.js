@@ -10,9 +10,9 @@
             <b-table id="table" striped hover :items="[{ 
             cumul_des_versements_bruts: cumulVersements(capital.operations) + ' €' , 
             rachats_bruts: cumulRachats(capital.operations) + ' €' ,
-            solde_brut_des_investissements: cumul + ' €' ,
-            plus_ou_moins_values_depuis_adhésion: (epargne-cumul).toFixed(2) +' €',
-            épargne_atteinte: epargne.toFixed(2) + ' €' ,
+            solde_brut_des_investissements: cumul.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' €' ,
+            plus_ou_moins_values_depuis_adhésion: (epargne-cumul).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') +' €',
+            épargne_atteinte: epargne.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' €' ,
             date : date
             }]" :fields="tableFields">
             </b-table>
@@ -75,15 +75,9 @@ export default {
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     },
-    soldeInvest(operations) {
-      return (
-        operations
-          .filter(operation => operation.type !== "Rachat partiel")
-          .reduce((a, b) => a + parseInt(b.amount), 0) -
-        operations.filter(operation => operation.type === "Rachat partiel").reduce((a, b) => a + parseInt(b.amount), 0)
-      )
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    soldeInvest() {
+      return;
+      this.cumul.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     }
   },
   created() {
