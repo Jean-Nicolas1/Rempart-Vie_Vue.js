@@ -183,7 +183,7 @@ export default {
             )
             .reduce((a, b) => a + parseInt(b.amount), 0);
         cumulDataSet[this.capital.operations[0].monthYearDate] = cumul;
-        for (let i = 1; i < monthSinceAdhesion; i++) {
+        for (let i = 1; i <= monthSinceAdhesion; i++) {
           cumulDataSet[
             `${monthNames[(adhesionDateFormatted.getMonth() + i) % 12]}_${adhesionDateFormatted.getFullYear() +
               Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
@@ -252,7 +252,7 @@ export default {
 
         epargneDataSet[this.capital.operations[0].monthYearDate] = epargne;
 
-        for (let i = 1; i < monthSinceAdhesion; i++) {
+        for (let i = 1; i <= monthSinceAdhesion; i++) {
           epargneDataSet[
             `${monthNames[(adhesionDateFormatted.getMonth() + i) % 12]}_${adhesionDateFormatted.getFullYear() +
               Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`

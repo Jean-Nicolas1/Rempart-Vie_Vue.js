@@ -42,7 +42,7 @@
 
                 <label id="label" for="capital-input">Montant du versement libre *</label>
                 <div class="input-group">
-                  <input id="capital-input" v-model="amount" type="text" class="form-control" aria-label="Amount (to the nearest euro)">
+                  <input id="capital-input" v-model="amount" type="number" class="form-control" aria-label="Amount (to the nearest euro)">
                   <div class="input-group-append">
                     <span class="input-group-text">€</span>
                     <span class="input-group-text">0.00</span>
