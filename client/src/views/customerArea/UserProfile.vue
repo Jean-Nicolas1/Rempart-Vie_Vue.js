@@ -19,7 +19,7 @@
           </div>
           <div v-if="user && capital && form" class="block">
             <h5>Epargne atteinte vs montant cumulé des versements rachats</h5>
-            <line-chart :data="chartData" />
+            <line-chart :data="chartData" :library="options"  legend="bottom" thousands=" " suffix=" €" :colors="['#206fb6','#27bd83']"/>
           </div>
           <h5 v-else>Loading...</h5>
         </section>
@@ -43,6 +43,33 @@ export default {
       date: null,
       cumul: null,
       epargne: null,
+      options: {
+        scales: {
+          xAxes: [
+            {
+              ticks: {
+                fontSize: 14,
+                fontColor: "black"
+              }
+            }
+          ],
+          yAxes: [
+            {
+              ticks: {
+                fontSize: 14,
+                fontColor: "black"
+              }
+            }
+          ]
+        },
+        legend: {
+          labels: {
+            // This more specific font property overrides the global property
+            fontSize: 14,
+            fontColor: "black"
+          }
+        }
+      },
       tableFields: [
         "cumul_des_versements_bruts",
         "rachats_bruts",
@@ -156,7 +183,7 @@ export default {
             )
             .reduce((a, b) => a + parseInt(b.amount), 0);
         cumulDataSet[this.capital.operations[0].monthYearDate] = cumul;
-        for (let i = 1; i <= monthSinceAdhesion; i++) {
+        for (let i = 1; i < monthSinceAdhesion; i++) {
           cumulDataSet[
             `${monthNames[(adhesionDateFormatted.getMonth() + i) % 12]}_${adhesionDateFormatted.getFullYear() +
               Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
@@ -225,7 +252,7 @@ export default {
 
         epargneDataSet[this.capital.operations[0].monthYearDate] = epargne;
 
-        for (let i = 1; i <= monthSinceAdhesion; i++) {
+        for (let i = 1; i < monthSinceAdhesion; i++) {
           epargneDataSet[
             `${monthNames[(adhesionDateFormatted.getMonth() + i) % 12]}_${adhesionDateFormatted.getFullYear() +
               Math.floor((adhesionDateFormatted.getMonth() + i) / 12)}`
@@ -383,5 +410,8 @@ h5 {
 }
 .table>>>td:nth-child(4) {
   color: #27bd83;
+}
+h5 {
+  margin-bottom: 20px;
 }
 </style>
