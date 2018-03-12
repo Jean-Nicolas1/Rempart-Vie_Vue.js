@@ -222,24 +222,24 @@ export default {
 
       section5: {
         isVisible: false,
-        header: "Salaire",
-        question: "Votre salaire",
+        header: "Vos revenus",
+        question: "A combien s'élèvent vos revenus nets annuels ?",
         disclaimer: "",
         selected: "",
         options: [
-          { text: "1000 €", value: "radio1" },
+          { text: "Moins de 25 000 €", value: "radio1" },
           {
-            text: "2000 €",
+            text: "25 000 à 50 000 €",
             value: "radio2"
           },
-          { text: "3000 €", value: "radio3" },
-          { text: "4000 €", value: "radio4" },
+          { text: "50 000 à 75 000 €", value: "radio3" },
+          { text: "75 000 à 100 000 €", value: "radio4" },
           {
-            text: "5000 €",
+            text: "100 000 à 300 000 €",
             value: "radio5"
           },
           {
-            text: "6000 €",
+            text: "Plus de 300 000 €",
             value: "radio6"
           }
         ]

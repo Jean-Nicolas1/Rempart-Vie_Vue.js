@@ -91,245 +91,245 @@
 </template>
 
 <script>
-  import Choice from "@/components/Choice";
-  import ChoiceH from "@/components/ChoiceH";
-  import api from "@/api";
+import Choice from "@/components/Choice";
+import ChoiceH from "@/components/ChoiceH";
+import api from "@/api";
 
-  export default {
-    components: { Choice, ChoiceH },
-    methods: {
-      section1ButtonModify() {
-        this.section1.isVisible = true;
-        this.section2.isVisible = false;
-        this.section3.isVisible = false;
-        this.section4.isVisible = false;
-        window.scrollTo(0, 0);
-      },
-      section1ButtonContinue() {
-        this.section1.isVisible = false;
-        this.section4.isVisible = true;
-        window.scrollTo(0, 0);
-      },
-      section4ButtonModify() {
-        this.section1.isVisible = false;
-        this.section2.isVisible = false;
-        this.section3.isVisible = false
-        this.section4.isVisible = true;
-        window.scrollTo(0, 0);
-      },
-      section4ButtonContinue() {
-        this.section4.isVisible = false;
-        this.section2.isVisible = true;
-        window.scrollTo(0, 0);
-      },
-      section2ButtonModify() {
-        this.section1.isVisible = false;
-        this.section2.isVisible = true;
-        this.section3.isVisible = false;
-        this.section4.isVisible = false;
-        window.scrollTo(0, 0);
-      },
-      section2ButtonContinue() {
-        this.section2.isVisible = false;
-        this.section3.isVisible = true;
-        window.scrollTo(0, 0);
-      },
-      section3ButtonModify() {
-        this.section1.isVisible = false;
-        this.section2.isVisible = false;
-        this.section3.isVisible = true;
-        this.section4.isVisible = false;
-        window.scrollTo(0, 0);
-      },
-      updateForm() {
-        api
-          .updateForm({
-            fiscalResidenceA: this.section1.partA.options.filter(
-              option => option.value === this.section1.partA.selected
-            )[0].text,
-            fiscalResidenceB: this.section1.partB.options.filter(
-              option => option.value === this.section1.partB.selected
-            )[0].text,
-            fiscalResidenceC: this.section1.partC.options.filter(
-              option => option.value === this.section1.partC.selected
-            )[0].text,
-            fiscalResidenceD: this.section1.partD.options.filter(
-              option => option.value === this.section1.partD.selected
-            )[0].text,
-            fiscalResidenceStatus: this.section1.status,
-            salary: this.section2.options.filter(option => option.value === this.section2.selected)[0].text,
-            familySituation: this.section3.options.filter(option => option.value === this.section3.selected)[0].text,
-            birthdate: this.section4.birthdate,
-            address: this.section4.address,
-            zipcode: this.section4.zipcode,
-            country: this.section4.country,
-            tel: this.section4.tel
-          })
-          .then(() => {
-            this.$router.push("/adhesion/validation");
-          })
-          .catch(err => {
-            this.error = err;
-          });
-      }
+export default {
+  components: { Choice, ChoiceH },
+  methods: {
+    section1ButtonModify() {
+      this.section1.isVisible = true;
+      this.section2.isVisible = false;
+      this.section3.isVisible = false;
+      this.section4.isVisible = false;
+      window.scrollTo(0, 0);
     },
-    data() {
-      return {
-        section4: {
-          isVisible: false,
-          header: "Informations personnelles",
-          birthdate: null,
-          address: "",
-          zipcode: null,
-          country: "",
-          tel: null
-        },
-        section1: {
-          isVisible: true,
-          header: "Auto-certification de résidence fiscale",
-          partA: {
-            question: "Êtes-vous uniquement résident fiscal français ?",
-            disclaimer: "",
-            selected: "",
-            options: [{ text: "Oui", value: "radio1" }, { text: "Non", value: "radio2" }]
-          },
-          partB: {
-            question:
-              "Etes-vous citoyen américain ou détenez-vous une carte verte (Green Card) en cours de validité ou un numéro d'immatriculation fiscal américain (TIN) ?",
-            disclaimer: "",
-            selected: "",
-            options: [{ text: "Oui", value: "radio1" }, { text: "Non", value: "radio2" }]
-          },
-          partC: {
-            question: "Avez-vous un lieu de résidence personnel, fiscal ou un numéro de téléphone aux Etats-Unis ?",
-            disclaimer: "",
-            selected: "",
-            options: [{ text: "Oui", value: "radio1" }, { text: "Non", value: "radio2" }]
-          },
-          partD: {
-            question:
-              "Etes-vous lié à une personne américaine agissant comme votre représentant, votre conseiller en investissement ou patrimonial, votre mandataire ou qui aurait procuration sur vos comptes ?",
-            disclaimer: "",
-            selected: "",
-            options: [{ text: "Oui", value: "radio1" }, { text: "Non", value: "radio2" }]
-          },
-          status: "accepted"
-        },
-
-        section3: {
-          isVisible: false,
-          header: "Situation familiale",
-          question: "Votre situation familiale",
-          disclaimer: "",
-          selected: "",
-          options: [
-            { text: "Célibataire", value: "radio1" },
-            {
-              text: "Marié(e)",
-              value: "radio2"
-            },
-            { text: "Pacsé(e)", value: "radio3" },
-            { text: "Union libre", value: "radio4" },
-            {
-              text: "Divorcé(e)",
-              value: "radio5"
-            },
-            {
-              text: "Veuf(ve)",
-              value: "radio6"
-            }
-          ]
-        },
-
-        section2: {
-          isVisible: false,
-          header: "Salaire",
-          question: "Votre salaire",
-          disclaimer: "",
-          selected: "",
-          options: [
-            { text: "1000 €", value: "radio1" },
-            {
-              text: "2000 €",
-              value: "radio2"
-            },
-            { text: "3000 €", value: "radio3" },
-            { text: "4000 €", value: "radio4" },
-            {
-              text: "5000 €",
-              value: "radio5"
-            },
-            {
-              text: "6000 €",
-              value: "radio6"
-            }
-          ]
-        }
-      };
+    section1ButtonContinue() {
+      this.section1.isVisible = false;
+      this.section4.isVisible = true;
+      window.scrollTo(0, 0);
+    },
+    section4ButtonModify() {
+      this.section1.isVisible = false;
+      this.section2.isVisible = false;
+      this.section3.isVisible = false;
+      this.section4.isVisible = true;
+      window.scrollTo(0, 0);
+    },
+    section4ButtonContinue() {
+      this.section4.isVisible = false;
+      this.section2.isVisible = true;
+      window.scrollTo(0, 0);
+    },
+    section2ButtonModify() {
+      this.section1.isVisible = false;
+      this.section2.isVisible = true;
+      this.section3.isVisible = false;
+      this.section4.isVisible = false;
+      window.scrollTo(0, 0);
+    },
+    section2ButtonContinue() {
+      this.section2.isVisible = false;
+      this.section3.isVisible = true;
+      window.scrollTo(0, 0);
+    },
+    section3ButtonModify() {
+      this.section1.isVisible = false;
+      this.section2.isVisible = false;
+      this.section3.isVisible = true;
+      this.section4.isVisible = false;
+      window.scrollTo(0, 0);
+    },
+    updateForm() {
+      api
+        .updateForm({
+          fiscalResidenceA: this.section1.partA.options.filter(
+            option => option.value === this.section1.partA.selected
+          )[0].text,
+          fiscalResidenceB: this.section1.partB.options.filter(
+            option => option.value === this.section1.partB.selected
+          )[0].text,
+          fiscalResidenceC: this.section1.partC.options.filter(
+            option => option.value === this.section1.partC.selected
+          )[0].text,
+          fiscalResidenceD: this.section1.partD.options.filter(
+            option => option.value === this.section1.partD.selected
+          )[0].text,
+          fiscalResidenceStatus: this.section1.status,
+          salary: this.section2.options.filter(option => option.value === this.section2.selected)[0].text,
+          familySituation: this.section3.options.filter(option => option.value === this.section3.selected)[0].text,
+          birthdate: this.section4.birthdate,
+          address: this.section4.address,
+          zipcode: this.section4.zipcode,
+          country: this.section4.country,
+          tel: this.section4.tel
+        })
+        .then(() => {
+          this.$router.push("/adhesion/validation");
+        })
+        .catch(err => {
+          this.error = err;
+        });
     }
-  };
+  },
+  data() {
+    return {
+      section4: {
+        isVisible: false,
+        header: "Informations personnelles",
+        birthdate: null,
+        address: "",
+        zipcode: null,
+        country: "",
+        tel: null
+      },
+      section1: {
+        isVisible: true,
+        header: "Auto-certification de résidence fiscale",
+        partA: {
+          question: "Êtes-vous uniquement résident fiscal français ?",
+          disclaimer: "",
+          selected: "",
+          options: [{ text: "Oui", value: "radio1" }, { text: "Non", value: "radio2" }]
+        },
+        partB: {
+          question:
+            "Etes-vous citoyen américain ou détenez-vous une carte verte (Green Card) en cours de validité ou un numéro d'immatriculation fiscal américain (TIN) ?",
+          disclaimer: "",
+          selected: "",
+          options: [{ text: "Oui", value: "radio1" }, { text: "Non", value: "radio2" }]
+        },
+        partC: {
+          question: "Avez-vous un lieu de résidence personnel, fiscal ou un numéro de téléphone aux Etats-Unis ?",
+          disclaimer: "",
+          selected: "",
+          options: [{ text: "Oui", value: "radio1" }, { text: "Non", value: "radio2" }]
+        },
+        partD: {
+          question:
+            "Etes-vous lié à une personne américaine agissant comme votre représentant, votre conseiller en investissement ou patrimonial, votre mandataire ou qui aurait procuration sur vos comptes ?",
+          disclaimer: "",
+          selected: "",
+          options: [{ text: "Oui", value: "radio1" }, { text: "Non", value: "radio2" }]
+        },
+        status: "accepted"
+      },
+
+      section3: {
+        isVisible: false,
+        header: "Situation familiale",
+        question: "Votre situation familiale",
+        disclaimer: "",
+        selected: "",
+        options: [
+          { text: "Célibataire", value: "radio1" },
+          {
+            text: "Marié(e)",
+            value: "radio2"
+          },
+          { text: "Pacsé(e)", value: "radio3" },
+          { text: "Union libre", value: "radio4" },
+          {
+            text: "Divorcé(e)",
+            value: "radio5"
+          },
+          {
+            text: "Veuf(ve)",
+            value: "radio6"
+          }
+        ]
+      },
+
+      section2: {
+        isVisible: false,
+        header: "Vos revenus",
+        question: "A combien s'élèvent vos revenus nets annuels ?",
+        disclaimer: "",
+        selected: "",
+        options: [
+          { text: "Moins de 25 000 €", value: "radio1" },
+          {
+            text: "25 000 à 50 000 €",
+            value: "radio2"
+          },
+          { text: "50 000 à 75 000 €", value: "radio3" },
+          { text: "75 000 à 100 000 €", value: "radio4" },
+          {
+            text: "100 000 à 300 000 €",
+            value: "radio5"
+          },
+          {
+            text: "Plus de 300 000 €",
+            value: "radio6"
+          }
+        ]
+      }
+    };
+  }
+};
 </script>
 
 <style scoped>
-  .card {
-    margin-bottom: 20px;
-    margin-top: 20px;
-  }
+.card {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
 
-  .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-weight: bold;
-    text-transform: uppercase;
-    background-color: #206fb6;
-    color: white;
-  }
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+  text-transform: uppercase;
+  background-color: #206fb6;
+  color: white;
+}
 
-  .continue-btn {
-    background-color: #206fb6;
-    color: white;
-  }
+.continue-btn {
+  background-color: #206fb6;
+  color: white;
+}
 
-  .modify-btn {
-    background-color: white;
-    color: #206fb6;
-  }
+.modify-btn {
+  background-color: white;
+  color: #206fb6;
+}
 
-  #checkbox {
-    margin-bottom: 20px;
-  }
+#checkbox {
+  margin-bottom: 20px;
+}
 
-  .next-btn {
-    background-color: #206fb6;
-    color: white;
-    margin-bottom: 20px;
-  }
+.next-btn {
+  background-color: #206fb6;
+  color: white;
+  margin-bottom: 20px;
+}
 
-  .previous-btn {
-    background-color: white;
-    color: #206fb6;
-    margin-bottom: 20px;
-  }
+.previous-btn {
+  background-color: white;
+  color: #206fb6;
+  margin-bottom: 20px;
+}
 
-  #navig {
-    display: flex;
-    justify-content: space-between;
-  }
+#navig {
+  display: flex;
+  justify-content: space-between;
+}
 
-  .inline {
-    display: flex;
-  }
+.inline {
+  display: flex;
+}
 
-  .input-block {
-    margin-bottom: 20px
-  }
+.input-block {
+  margin-bottom: 20px;
+}
 
-  .country-input {
-    margin-top: 10px
-  }
+.country-input {
+  margin-top: 10px;
+}
 
-  label {
-    font-weight: bold
-  }
+label {
+  font-weight: bold;
+}
 </style>
